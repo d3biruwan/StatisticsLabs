@@ -58,6 +58,7 @@ if __name__ == '__main__':
     y2 = linereg(x2, x, y1, r1)
     plt.title("Линейная регрессия")
     plt.plot(x2, y2, c="black")
+    print("Линейная регрессия")
     print(r1 * np.sqrt(np.var(y1)) / np.sqrt(np.var(x)), r1 * np.sqrt(np.var(y1)) / np.sqrt(np.var(x)) * (-np.average(x)) + np.average(y1))
 
     y3 = 4 * np.sin(x) + 0.3 * e

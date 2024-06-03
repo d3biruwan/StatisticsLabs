@@ -53,24 +53,29 @@ if __name__ == '__main__':
     n = 1000
     alpha = 0.05
 
+    print("Предполагается, что t∈{α/2, 1-α/} => H0 - {x-y=0} ")
     x11 = np.random.normal(3, np.sqrt(5), n)
     y11 = np.random.normal(3, np.sqrt(6), n)
     ans1 = t20(w(x11[:20], y11[:20]), 20)
     ans2 = t1000(w(x11, y11), n)
     N01 = stats.norm.ppf(1 - alpha / 2)
-    print("H0: x - y = 0, N(3,5), N(3,6), n = 20 : ", ans1, alpha / 2, 1 - alpha / 2, alpha / 2 < ans1 < 1 - alpha / 2)
-    print("H0: x - y = 0, N(3,5), N(3,6), n = 1000 : ", ans2, -N01, N01, -N01 < ans2 < N01)
+    print("Для N(3,5), N(3,6)")
+    print("n = 20 : ", ans1, "{", alpha / 2, ";", 1 - alpha / 2, "}", alpha / 2 < ans1 < 1 - alpha / 2)
+    print("n = 1000 : ", ans2, "{", -N01, ";", N01, "}", -N01 < ans2 < N01)
 
     x12 = x11
     y12 = np.random.normal(3.5, np.sqrt(6), n)
     ans1 = t20(w(x12[:20], y12[:20]), 20)
     ans2 = t1000(w(x12, y12), n)
-    print("H0: x - y = 0, N(3,5), N(3.5,6), n = 20 : ", ans1, alpha / 2, 1 - alpha / 2, alpha / 2 < ans1 < 1 - alpha / 2)
-    print("H0: x - y = 0, N(3,5), N(3.5,6), n = 1000 : ", ans2, -N01, N01, -N01 < ans2 < N01)
+    print("Для N(3,5), N(3.5,6)")
+    print("n = 20 : ", ans1, "{", alpha / 2, ";", 1 - alpha / 2, "}", alpha / 2 < ans1 < 1 - alpha / 2)
+    print("n = 1000 : ", ans2, "{", -N01, ";", N01, "}", -N01 < ans2 < N01)
 
     x21 = x11
     ans = cor(x21)
-    print("H0: cor = 0, N(3,5) : ", ans, -N01, N01, -N01 < ans < N01)
+    print("")
+    print("Предполагаем, что коэффициент автокорреляции = 0")
+    print("N(3,5) : ", ans, "{", -N01, ";", N01, "}", -N01 < ans < N01)
 
     y21 = []
     y21.append(x21[0] - 2 * x21[len(x21) - 1])
@@ -78,13 +83,17 @@ if __name__ == '__main__':
         y21.append(x21[i] + 2 * x21[i - 1])
     y21 = np.array(y21)
     ans = cor(y21)
-    print("H0: cor = 0, y строится по x : ", ans, -N01, N01, -N01 < ans < N01)
+    print("y[j+1] = x[j] + 2x[j-1]; "
+          "y[1] = x[1] - 2x[n]: ", ans, "{", -N01, ";", N01, "}", -N01 < ans < N01)
+
 
     x31 = x11
     ans = h(x31)
-    print("H0: D(xj) - одинаковые, N(3,5) : ", ans, -N01, N01, -N01 < ans < N01)
+    print("")
+    print("Предполагаем, что дисперсии x[j] одинаковые")
+    print("N(3,5) : ", ans, "{", -N01, ";", N01, "}", -N01 < ans < N01)
 
     y31 = list(x11[:500]) + list(y11[:500])
     y31 = np.array(y31)
     ans = h(y31)
-    print("H0: D(xj) - одинаковые, y строится по N(3,5), N(3,6) : ", ans, -N01, N01, -N01 < ans < N01)
+    print("Для j∈[1;500]: N(3,5), Для j∈[501;1000]: N(3,6) : ", ans, "{", -N01, ";", N01, "}", -N01 < ans < N01)
